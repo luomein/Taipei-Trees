@@ -1,0 +1,62 @@
+name: Publish Taipei Trees
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Check out Taipei Trees
+        uses: actions/checkout@v6
+        with:
+          path: taipei-trees
+
+      - name: Check out the shared Streetlog app
+        uses: actions/checkout@v6
+        with:
+          repository: luomein/Streetlog
+          ref: 13b6c1d516696a6f26b6f8c1953a9c0dbf1fec0a
+          path: streetlog
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Assemble and build Taipei Trees
+        shell: bash
+        run: |
+          mkdir -p assembled/docs/GeoJSON assembled/.github/scripts
+
+          rsync -a \
+            --exclude='/GeoJSON/' \
+            --exclude='/site.json' \
+            --exclude='/CNAME' \
+            streetlog/docs/ assembled/docs/
+
+          cp taipei-trees/site.json assembled/site.json
+          rsync -a taipei-trees/docs/GeoJSON/ assembled/docs/GeoJSON/
+
+          cp streetlog/.github/scripts/build-pages.py \
+            assembled/.github/scripts/build-pages.py
+
+          python3 assembled/.github/scripts/build-pages.py _site
+
+      - name: Upload the built site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
