@@ -21,7 +21,7 @@ jobs:
       - name: Check out Taipei Trees
         uses: actions/checkout@v6
         with:
-          path: taipei-trees
+          path: Taipei-Trees
 
       - name: Check out the shared Streetlog app
         uses: actions/checkout@v6
@@ -44,8 +44,8 @@ jobs:
             --exclude='/CNAME' \
             streetlog/docs/ assembled/docs/
 
-          cp taipei-trees/site.json assembled/site.json
-          rsync -a taipei-trees/docs/GeoJSON/ assembled/docs/GeoJSON/
+          cp Taipei-Trees/site.json assembled/site.json
+          rsync -a Taipei-Trees/docs/GeoJSON/ assembled/docs/GeoJSON/
 
           cp streetlog/.github/scripts/build-pages.py \
             assembled/.github/scripts/build-pages.py
