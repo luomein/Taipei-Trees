@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v6
         with:
           repository: luomein/Streetlog
-          ref: 13b6c1d516696a6f26b6f8c1953a9c0dbf1fec0a
+          ref: d3b6025b077d0570d06bd59584fb924aa1839e9a
           path: streetlog
 
       - name: Configure GitHub Pages
