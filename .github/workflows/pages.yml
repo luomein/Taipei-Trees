@@ -35,21 +35,35 @@ jobs:
 
       - name: Assemble and build Taipei Trees
         shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           mkdir -p assembled/docs/GeoJSON assembled/.github/scripts
-
           rsync -a \
             --exclude='/GeoJSON/' \
             --exclude='/site.json' \
             --exclude='/CNAME' \
             streetlog/docs/ assembled/docs/
-
           cp Taipei-Trees/site.json assembled/site.json
           rsync -a Taipei-Trees/docs/GeoJSON/ assembled/docs/GeoJSON/
 
+          dataset_tag=data-v1.0.0
+          has_dataset=$(gh api "repos/$GITHUB_REPOSITORY/releases/tags/$dataset_tag" \
+            --jq '[.assets[] | select(.state == "uploaded") | .name] | contains(["taipei-trees.tar.gz", "taipei-trees.tar.gz.sha256"])')
+          if [[ "$has_dataset" == true ]]; then
+            dataset_dir=$(mktemp -d)
+            gh release download "$dataset_tag" --repo "$GITHUB_REPOSITORY" \
+              --pattern 'taipei-trees.tar.gz' --pattern 'taipei-trees.tar.gz.sha256' \
+              --dir "$dataset_dir"
+            (cd "$dataset_dir" && sha256sum -c taipei-trees.tar.gz.sha256)
+            tar -xzf "$dataset_dir/taipei-trees.tar.gz" \
+              -C assembled/docs/GeoJSON --strip-components=1 --skip-old-files
+          else
+            echo "::warning::Dataset assets are missing from $dataset_tag. Publishing checked-in GeoJSON only."
+          fi
+
           cp streetlog/.github/scripts/build-pages.py \
             assembled/.github/scripts/build-pages.py
-
           python3 assembled/.github/scripts/build-pages.py _site
 
       - name: Upload the built site
