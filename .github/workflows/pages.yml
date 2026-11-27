@@ -64,7 +64,7 @@ jobs:
 
           cp streetlog/.github/scripts/build-pages.py \
             assembled/.github/scripts/build-pages.py
-          python3 assembled/.github/scripts/build-pages.py _site
+          python3 assembled/.github/scripts/build-pages.py _site --source-repository Taipei-Trees
 
       - name: Upload the built site
         uses: actions/upload-pages-artifact@v4
