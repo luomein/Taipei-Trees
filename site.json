@@ -1,6 +1,6 @@
 {
-  "site_name": "Streetlog",
-  "git_url": "https://github.com/luomein/Streetlog.git",
+  "site_name": "台北樹鄰居",
+  "git_url": "https://github.com/luomein/Taipei-Trees.git",
   "guest_github_api_url": "https://streetlog-submissions.exuberantfrond128.chatgpt.site/api/map-edits",
   "GeoJSON_folder": "GeoJSON",
   "max_visible_geojson_files": 1000,
