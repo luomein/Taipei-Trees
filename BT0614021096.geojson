@@ -1,0 +1,29 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "outing": "BT0614021096",
+        "outingKind": "pin",
+        "category": "榕樹",
+        "description": "資料集：臺北市行道樹及公園樹木分布圖\n資料來源網頁：https://data.gov.tw/dataset/128274\n資料資源：行道樹資料\nTreeID：BT0614021096\nDist：士林區\nRegion：文林路\nRegionRemark：東側人行道\nDiameter：54\nTreeHeight：16\nSurveyDate：2022-11-18\nTWD97X：302404.92\nTWD97Y：2777358.41\nUpdDate：2026-11-26 13:54:27",
+        "photoFileNames": [],
+        "streetSnapped": false,
+        "timestamps": [
+          null
+        ],
+        "accuracyMeters": [
+          null
+        ]
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          121.51960118,
+          25.10364539
+        ]
+      }
+    }
+  ]
+}
